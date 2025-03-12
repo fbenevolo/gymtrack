@@ -1,9 +1,10 @@
 ``` mermaid
 graph TD
-    A["Week Day"] --> B["Exercise"];
-    B --> C["Name"];
-    B --> D["PR"];
-    B --> E["WeightProgression"];
-    E --> F["Weight"];
-    E --> G["Date"];
+    A["Exercise"] --> B["Name"];
+    A --> C["Week Day"]
+    A --> D["PR"]
+    A --> E["Weight Progression"]
+    E --> F["Date"]
+    E --> G["Weight"]
+    E --> H["Reps"]
 ```

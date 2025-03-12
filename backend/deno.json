@@ -1,9 +1,14 @@
 {
   "tasks": {
-    "dev": "deno run --allow-net --watch main.ts"
+    "dev": "deno run --allow-net --allow-read --allow-env --allow-sys --env-file --watch main.ts",
+    "run:db": "deno run --allow-net --allow-read --allow-env --allow-sys --env-file db.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
-    "oak": "https://deno.land/x/oak/mod.ts"
+    "oak": "https://deno.land/x/oak/mod.ts",
+    "mongodb": "npm:mongodb@latest",
+    "dayjs": "https://esm.sh/dayjs",
+    "dayjs/locale/pt": "https://esm.sh/dayjs/locale/pt",
+    "dayjs/plugin/localeData": "https://esm.sh/dayjs/plugin/localeData"
   }
 }
