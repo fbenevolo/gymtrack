@@ -9,6 +9,7 @@
     "mongodb": "npm:mongodb@latest",
     "dayjs": "https://esm.sh/dayjs",
     "dayjs/locale/pt": "https://esm.sh/dayjs/locale/pt",
-    "dayjs/plugin/localeData": "https://esm.sh/dayjs/plugin/localeData"
+    "dayjs/plugin/localeData": "https://esm.sh/dayjs/plugin/localeData",
+    "oakCors": "https://deno.land/x/cors/mod.ts"
   }
 }

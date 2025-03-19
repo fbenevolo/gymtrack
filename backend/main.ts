@@ -1,4 +1,5 @@
 import { Application, Router } from "oak";
+import { oakCors } from "oakCors";
 
 import { getExercises } from "./controllers/getExercises.ts";
 import { addExercise } from "./controllers/addExercise.ts";
@@ -10,11 +11,15 @@ import { getWeightProgression } from "./controllers/getWeightProgression.ts";
 import { addWeightProgression } from "./controllers/addWeightProgression.ts";
 import { deleteWeightProgression } from "./controllers/deleteWeightProgression.ts";
 import { updateWeightProgressionDate, updateWeightProgressionReps, updateWeightProgressionWeight } from "./controllers/updateWeightProgression.ts";
+import { groupExercises } from "./controllers/groupExercises.ts";
 
 const app = new Application();
 const router = new Router();
 
 const PORT = 2020;
+const FRONTEND_URL = 'http://localhost:4200';
+
+app.use(oakCors({ origin: FRONTEND_URL }));
 
 router.get('/', async (context) => {
     return await getExercises().then(async (response) => {
@@ -22,6 +27,18 @@ router.get('/', async (context) => {
         context.response.status = response.status;
         context.response.body = data.message;
     });
+});
+
+router.get('/group-exercises', async (context) => {
+    return await groupExercises().then(async (response) => {
+        const data = await response.json();
+
+        // console.log(data);
+
+        context.response.status = response.status;
+        context.response.body = data.message;
+    })
+
 });
 
 router.post('/', async (context) => {
@@ -143,7 +160,10 @@ router.delete('/exercise-wp', async (context) => {
 
 });
 
+
 app.use(router.routes());
+app.use(router.allowedMethods());
+
 app.listen({port: PORT});
 
 console.log(`HTTP webserver running. Access it at: http://localhost:${PORT}/`);

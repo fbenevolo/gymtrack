@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 
 export interface WeightProgression {
     weight: number,
@@ -6,7 +6,7 @@ export interface WeightProgression {
     reps: number
 }
 
-export default class Exercise {
+export class Exercise {
     constructor (
         public name: string, public weekDay: string, 
         public pr: number, public weightProgression: WeightProgression[]) {}

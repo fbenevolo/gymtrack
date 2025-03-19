@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+
+h2 {
+    all: revert;
+}
+
+input {
+    all: revert;
+}
+
+.btn-remove, .btn-add {
+    @apply bg-rose-400 w-6 rounded-lg shadow-lg font-bold text-white text-lg text-center;
+}

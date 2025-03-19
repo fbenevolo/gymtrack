@@ -6,10 +6,18 @@ export async function addExercise(exercise: Exercise): Promise<Response> {
         const result = await exercisesCollection.insertOne({ exercise, weightProgression: [] });
 
         if (!result.acknowledged) {
-            return new Response(JSON.stringify({message: 'insertion failed'}), { status: 500 });    
+            return new Response(JSON.stringify({message: 'insertion failed'}), 
+            { 
+                status: 500 ,
+                headers: { "Content-Type": "application/json" }
+            });    
         }
 
-        return new Response(JSON.stringify({message: 'exercise inserted successfully' }), { status: 201 });
+        return new Response(JSON.stringify({message: 'exercise inserted successfully' }), 
+        { 
+            status: 201,
+            headers: { "Content-Type": "application/json" }
+         });
 
     }
     catch (error) {
