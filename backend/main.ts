@@ -100,6 +100,7 @@ router.post('/exercise-wp', async (context) => {
     const reqData = await context.request.body.json();
     const exerciseName = reqData.name;
     const weightProgression = reqData.weightProgression;
+
     
     return await addWeightProgression(exerciseName, weightProgression).then(async (response) => {
         const data = await response.json();

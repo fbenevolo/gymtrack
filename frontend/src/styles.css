@@ -1,13 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
+* {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+    }
 
 h2 {
     all: revert;
 }
 
+
 input {
-    all: revert;
+    @apply border border-gray-300 rounded-lg;
 }
 
 .btn-remove, .btn-add {

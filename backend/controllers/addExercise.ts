@@ -3,7 +3,10 @@ import Exercise from "../models/exercise.ts";
 
 export async function addExercise(exercise: Exercise): Promise<Response> {
     try { 
-        const result = await exercisesCollection.insertOne({ exercise, weightProgression: [] });
+
+        exercise.weightProgression = [];
+
+        const result = await exercisesCollection.insertOne({ exercise });
 
         if (!result.acknowledged) {
             return new Response(JSON.stringify({message: 'insertion failed'}), 

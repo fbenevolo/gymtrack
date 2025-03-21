@@ -4,7 +4,7 @@ import { FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angu
 import { ExercisesService } from '../../services/exercises.service';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCheck, faXmark, faTrash, faPlus} from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faXmark, faTrash, faPlus, faRocket } from '@fortawesome/free-solid-svg-icons';
 
 import dayjs from "dayjs";
 import 'dayjs/locale/pt';
@@ -27,6 +27,7 @@ export class ExercisesComponent {
   faXmark = faXmark;
   faTrash = faTrash;
   faPlus = faPlus;
+  faRocket = faRocket;
 
   exerciseData: any;
   exerciseGroupedData: any;
@@ -38,11 +39,18 @@ export class ExercisesComponent {
     weekDay: ['']
   });
 
+  newWeightProgressionForm = this.formBuilder.group({
+    date: ['', Validators.required],
+    weight: ['', Validators.required],
+    reps: ['', Validators.required],
+  })
+
   incorrectFormMessage = false;
 
   // control variables to display (or not) certain elements
+  newWeightProgressionFormActiveArray: Array<boolean> = [];
   newExerciseFormActiveArray: Array<boolean> = new Array(7).fill(false);
-  displayDayExercise: Array<boolean> = new Array(7).fill(false);
+  displayDayExerciseArray: Array<boolean> = new Array(7).fill(false);
   removeExerciseButtonArray: Array<boolean> = [];
 
   weekDays = dayjs.weekdays();
@@ -59,11 +67,7 @@ export class ExercisesComponent {
       this.dataReady = true;
     });
   }
-
-  getKeys(obj: any) {
-    return Object.keys(obj);
-  }
-
+  
   addExercise(exercise: any, weekDay: string) {
     exercise.weekDay = weekDay;
     this.exercisesService.addExercise(exercise).subscribe();
@@ -73,22 +77,56 @@ export class ExercisesComponent {
     this.exercisesService.deleteExercise(name).subscribe();
   }
 
-  showNewExerciseForm(i: number) { this.newExerciseFormActiveArray[i] = !this.newExerciseFormActiveArray[i]; }
+  addWeightProgression(exercise: string, weightProgression: any) {
+    this.exercisesService.addWeightProgression(exercise, weightProgression).subscribe();
+  }
+
   showExercises(i: number) { 
-    this.displayDayExercise[i] = !this.displayDayExercise[i]; 
+    /*
+      Receives a number that is the index of displayDayExerciseArray.
+      This array holds which day card is expanded, that is, which
+      exercises from which day are being showed.
 
-    if (this.displayDayExercise[i]) {
+      Besides, it fills two arrays:
+      - the one that holds the state of delete buttons (if true, shows a confirm menu. else, only displays the button with garbage icon)
+      - the one that holds the state of new weight progression form (if it is active or not)
+      - 
+    */
+    this.displayDayExerciseArray[i] = !this.displayDayExerciseArray[i]; 
+
+    if (this.displayDayExerciseArray[i]) {
+      // this length is the number of exercises of the day
       let length = this.exerciseGroupedData[i][this.weekDays[i]].length;
+
       this.removeExerciseButtonArray = new Array(length).fill(false);
+      this.newWeightProgressionFormActiveArray = new Array(length).fill(false);
     }
-
   }
 
-  showConfirmDeleteOption(i: number) {
-    this.removeExerciseButtonArray[i] = !this.removeExerciseButtonArray[i];
+  showNewExerciseForm(i: number) { 
+    this.newExerciseFormActiveArray[i] = !this.newExerciseFormActiveArray[i]; 
   }
 
-  showIncorrectFormMessage() {
-    this.incorrectFormMessage = !this.incorrectFormMessage; 
+  showNewWeightProgressionForm(i: number) {
+    this.newWeightProgressionFormActiveArray[i] = !this.newWeightProgressionFormActiveArray[i]; 
   }
+
+  showIncorrectFormMessage() { this.incorrectFormMessage = !this.incorrectFormMessage;  }
+
+  retrieveWeekDay(obj: any) {
+    /*
+      Returns the week day inside an object that has this structure:
+      {
+        {
+          <day-of-week>: [ {}, {}, ...]
+        },
+        {
+          <another-day>: [ {}, {}, ...]
+        }
+      } 
+    */
+    return Object.keys(obj)[0];
+  }
+  
+  showConfirmDelete(i: number) { this.removeExerciseButtonArray[i] = !this.removeExerciseButtonArray[i]; }
 }

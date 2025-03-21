@@ -8,7 +8,7 @@ export async function addWeightProgression(exercise: string, wp: WeightProgressi
             { $push: {"exercise.weightProgression": JSON.parse(JSON.stringify(wp))} }
         )
 
-        if (result.matchedCount == 0) {
+        if (result.modifiedCount == 0) {
             return new Response(JSON.stringify({ message: 'failed to insert new progression' }), { status: 404 });
         }
 

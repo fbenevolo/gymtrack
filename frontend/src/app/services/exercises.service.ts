@@ -23,7 +23,13 @@ export class ExercisesService {
     return this.http.post<any>(this.url, data);
   }
 
-  deleteExercise(name: string) {
-    return this.http.delete(this.url, {body: { name: name }});
+  deleteExercise(exercise: string) {
+    return this.http.delete(this.url, {body: { name: exercise }});
   }
+
+  addWeightProgression(exercise: string, weightProgression: any ) {
+    const url = this.url + 'exercise-wp';
+    return this.http.post(url, { name: exercise, weightProgression: weightProgression });
+  }
+
 }
