@@ -1,116 +1,114 @@
-<div *ngIf="dataReady" class="flex justify-center items-center gap-10 h-screen">
+<div *ngIf="dataReady" class="w-3/4">
+    <div class="rounded-lg shadow-lg p-4 h-[400px]">
+        <h2>Academia</h2>
 
-    <div class="flex-1 rounded-lg shadow-lg border h-1/2">
-        oi
+        <div class="flex flex-row justify-center gap-4">
+            <div class="hover:bg-rose-400 hover:rounded-lg hover:text-white cursor-pointer" (click)="showExercises(i)" *ngFor="let day of weekDaysShort; let i = index"> 
+                <div *ngIf="selectedDayShort == day" class="bg-rose-400 border rounded-lg text-white p-1"> {{ day }}  </div>
+                <div *ngIf="selectedDayShort != day" class="border border-gray-400 rounded-lg p-1"> {{ day }}  </div>
+            </div>
+        </div>
+
+        <div *ngIf="selectedDay">
+            <div (click)="showNewExerciseForm(selectedDay)" class="flex justify-end m-1 mt-5 mb-3"> 
+                <div *ngIf="exerciseRemoved" class="m-auto">Exercício removido!</div>
+                <button matTooltip="Adicionar novo exercício" class="w-10"> <fa-icon [icon]="faPlus"></fa-icon> </button>    
+            </div>
+    
+            <div *ngIf="selectedDayExercises.length == 0"> 
+                Nada para mostrar...
+                <br>
+                Cadastre novos exercícios neste dia!    
+            </div>
+
+            <div *ngIf="selectedDayExercises.length > 0" class="max-h-50 overflow-y-auto">
+                <div class="flex"> 
+                    <div class="flex-1"> <h3> Exercício </h3>  </div>
+                    <div class="flex flex-1 justify-center"> <h3> Recorde Pessoal </h3> </div>
+                    <div class="flex flex-1 justify-end"> <h3> Opções </h3> </div>
+                </div>
+                <div *ngFor="let e of selectedDayExercises; let i = index" class="">
+                    <div class="flex flex-col">
+                        <div class="flex items-center py-3">
+                            <div class="flex-1 break-words mr-3"> {{ e.exercise.name | titlecase }} </div>
+                            <div class="flex flex-1 justify-center"> {{ e.exercise.pr }} </div>
+                            <div class="flex flex-1 justify-end">
+                                <div *ngIf="!removeExerciseButtonArray[i]" class="flex gap-1">
+                                    <button matTooltip="Histórico de Progressões" (click)="showWeightProgressions(e.exercise.name)" class="btn-size"> <fa-icon [icon]="faRocket"></fa-icon></button>
+                                    <button matTooltip="Remover" (click)="showConfirmDelete(i)" class="btn-size"> <fa-icon [icon]="faTrash"></fa-icon></button>
+                                </div>
+                
+                                <div *ngIf="removeExerciseButtonArray[i]" class="flex gap-1">
+                                    <button matTooltip="Cancelar" (click)="showConfirmDelete(i)" class="btn-size"> <fa-icon [icon]="faXmark"></fa-icon> </button>
+                                    <button matTooltip="Confirmar" (click)="deleteExercise(e.exercise.name); showConfirmDelete(i)" class="btn-size"> <fa-icon [icon]="faCheck"> </fa-icon> </button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="h-[3px] bg-gray-200 border-0">
+                    </div>
+
+
+                    <div *ngIf="weightProgressions[e.exercise.name]" class="flex justify-center items-center fixed inset-0 bg-opacity-50 backdrop-brightness-60 z-40">
+                        <div class="flex bg-white rounded-lg shadow-lg p-4">
+
+                            <div class="flex items-center">
+                                <h3> Histórico de Progressões </h3>
+                                <div>
+                                    <button (click)="showWeightProgressions(e.exercise.name)" class="btn-size"> 
+                                        <fa-icon [icon]="faXmark"></fa-icon> 
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>                
+            </div>
+        </div>
     </div>
-    <div class="flex-1"> 
 
-        <div class="float-right">
-            <div *ngFor="let obj of exerciseGroupedData; let i = index" class="w-72 rounded-lg shadow-lg"> 
-                <div class="flex justify-center items-center gap-3 p-2"> 
-                    <h2 (click)="showExercises(i)"> {{ retrieveWeekDay(obj) | titlecase }} </h2> 
-                    <button (click)="showNewExerciseForm(i)" class="btn-add"> <fa-icon [icon]="faPlus"></fa-icon> </button> 
+
+    <div *ngIf="newExerciseFormActiveArray[selectedDay]" class="flex justify-center items-center fixed inset-0 bg-opacity-50 backdrop-brightness-60 z-40"> 
+        <div class="flex bg-white rounded-lg shadow-lg p-4">
+            <form [formGroup]="newExerciseForm" class="flex flex-col gap-1 justify-center">
+                <div class="flex items-center">
+                    <div>
+                        <h2> Novo Exercício </h2>
+                    </div>
+                    <div class="ml-auto">
+                        <button (click)="showNewExerciseForm(selectedDay)" class="btn-size"> 
+                            <fa-icon [icon]="faXmark"></fa-icon> 
+                        </button>
+                    </div>
+                </div>
+
+                
+                <div *ngIf="incorrectFormMessage">
+                    mensagem de erro
+                    <button (click)="showIncorrectFormMessage()" class="btn-size"> 
+                        <fa-icon [icon]="faXmark"></fa-icon> 
+                    </button>
+                </div>
+
+                <div class="flex flex-col">
+                        <label for="exercise-name"> Nome </label>
+                        <input id="exercise-name" type="text" formControlName="name" autocomplete="off">
+                        <br>
+                        <label for="exercise-pr">PR</label>
+                        <input id="exercise-pr" type="text" formControlName="pr" autocomplete="off">
                 </div>
                 
-                <div *ngIf="displayDayExerciseArray[i]">
-                    <div *ngFor="let item of obj[retrieveWeekDay(obj)]; let j = index" class="grid grid-cols-3 p-2 ">  
-                        <div class="ml-5"> {{ item.exercise.name | titlecase }} </div>
-                        <div class="mx-auto"> {{ item.exercise.pr }} </div>
-        
-                        <div *ngIf="!removeExerciseButtonArray[j]" class="flex flex-row gap-1">
-                            <button (click)="showNewWeightProgressionForm(j)" class="btn-remove"> <fa-icon [icon]="faRocket"></fa-icon></button>
-                            <button (click)="showConfirmDelete(j)" class="btn-remove"> <fa-icon [icon]="faTrash"></fa-icon></button>
-                        </div>
-        
-                        <div *ngIf="removeExerciseButtonArray[j]" class="flex flex-row gap-1">
-                            <button (click)="showConfirmDelete(j)" class="btn-remove"> <fa-icon [icon]="faXmark"></fa-icon> </button>
-                            <button (click)="deleteExercise(item.exercise.name)" class="btn-remove"> <fa-icon [icon]="faCheck"> </fa-icon> </button>
-                        </div>
-        
-                        <hr class="w-60 h-[3px] mt-3 ml-5 bg-gray-200 border-0">
-        
-        
-                        <div *ngIf="newWeightProgressionFormActiveArray[j]" class="flex justify-center items-center fixed inset-0 bg-opacity-50 backdrop-brightness-60 z-40">
-                            <div class="flex flex-col bg-white rounded-lg shadow-lg p-4 w-96">
-                                <div class="flex flex-row items-center">
-                                    <h2> {{ item.exercise.name | titlecase }} </h2>
-                                    <div class="ml-auto"> 
-                                        <button (click)="showNewWeightProgressionForm(j)" class="btn-add"> 
-                                            <fa-icon [icon]="faXmark"></fa-icon> 
-                                        </button>
-                                    </div>
-                                </div>
-        
-        
-                                <div class="flex justify-between">
-                                    <div *ngIf="incorrectFormMessage">
-                                        mensagem de erro
-                                        <button (click)="showIncorrectFormMessage()" class="btn-add"> 
-                                            <fa-icon [icon]="faXmark"></fa-icon> 
-                                        </button>
-                                    </div>
-                                </div>
-        
-        
-                                <form [formGroup]="newWeightProgressionForm" class="flex flex-col">                            
-                                    <label for="date"> Data </label>
-                                    <input id="date" type="date" formControlName="date">
-        
-                                    <label for="weight"> Peso </label>
-                                    <input id="weight" type="text" formControlName="weight">
-        
-                                    <label for="reps"> Repetições </label>
-                                    <input id="reps" type="text" formControlName="reps">
-        
-                                    <div class="flex justify-center mt-3" *ngIf="newWeightProgressionForm.valid">
-                                        <button (click)="addWeightProgression(item.exercise.name, newWeightProgressionForm.value); showNewWeightProgressionForm(j)" class="btn-add"> <fa-icon [icon]="faPlus"></fa-icon> </button>
-                                    </div>
-        
-                                    <div class="flex justify-center mt-3" *ngIf="!newWeightProgressionForm.valid">
-                                        <button (click)="showIncorrectFormMessage()" class="btn-add"> <fa-icon [icon]="faPlus"></fa-icon> </button>
-                                    </div>
-        
-                                </form>
-                            </div>
-                        </div>
-        
-                    </div>
+                
+                <div class="flex justify-center mt-3" *ngIf="newExerciseForm.valid">
+                    <button (click)="addExercise(newExerciseForm.value, selectedDay); showNewExerciseForm(selectedDay)" class="btn-size"> <fa-icon [icon]="faPlus"></fa-icon> </button>
                 </div>
-        
-                <div *ngIf="newExerciseFormActiveArray[i]" class="flex justify-center items-center fixed inset-0 bg-opacity-50 backdrop-brightness-60 z-40"> 
-                    <div class="flex bg-white rounded-lg shadow-lg h-1/4 p-3">
-                        <form [formGroup]="newExerciseForm" class="flex flex-col p-4 mt-2 gap-1 justify-center">
-                            
-                            <div *ngIf="incorrectFormMessage">
-                                mensagem de erro
-                                <button (click)="showIncorrectFormMessage()" class="btn-add"> 
-                                    <fa-icon [icon]="faXmark"></fa-icon> 
-                                </button>
-                            </div>
-                            
-                            <label for="exercise-name"> Name </label>
-                            <input id="exercise-name" type="text" formControlName="name">
-                            
-                            <label for="exercise-pr">PR</label>
-                            <input id="exercise-pr" type="text" formControlName="pr">
-                            
-                            <div class="flex justify-center mt-3" *ngIf="newExerciseForm.valid">
-                                <button (click)="addExercise(newExerciseForm.value, retrieveWeekDay(obj)); showNewExerciseForm(i)" class="btn-add"> <fa-icon [icon]="faPlus"></fa-icon> </button>
-                            </div>
-        
-                            <div class="flex justify-center mt-3" *ngIf="!newExerciseForm.valid">
-                                <button (click)="showIncorrectFormMessage()" class="btn-add"> <fa-icon [icon]="faPlus"></fa-icon> </button>
-                            </div>
-                        </form>
-        
-                        <div> 
-                            <button (click)="showNewExerciseForm(i)" class="btn-add"> 
-                                <fa-icon [icon]="faXmark"></fa-icon> 
-                            </button>
-                        </div>
-                    </div>
+
+                <div class="flex justify-center mt-3" *ngIf="!newExerciseForm.valid">
+                    <button (click)="showIncorrectFormMessage()" class="btn-size"> <fa-icon [icon]="faPlus"></fa-icon> </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

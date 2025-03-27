@@ -1,0 +1,40 @@
+<div class="flex flex-col shadow-lg rounded-lg">
+    <div class="grid grid-cols-2 items-center p-2">
+        <div>
+            <h2> Evolução de Exercício </h2>
+        </div>
+
+        <div class="mr-10">
+            <form [formGroup]="selectExerciseEvolutionForm">
+                <div class="flex justify-center gap-2">
+                        <select class="max-w-30 overflow-y-auto" formControlName="exercise">
+                            <option value="" selected>Exercício</option>
+                            <option class="m-2" *ngFor="let exercise of exercisesList" [value]="exercise.exercise.name">
+                                {{ exercise.exercise.name | titlecase }}
+                            </option>
+                        </select>
+ 
+                        <select formControlName="period" class="">
+                            <option value="" selected>Período</option>
+                            <option *ngFor="let period of periodList" [value]="period">
+                                {{ period | titlecase }}
+                            </option>
+                        </select>
+
+                        <select formControlName="progressionType" class="">
+                            <option value="" selected> Progressão </option>
+                            <option value="peso"> Peso </option>
+                            <option value="repeticao"> Repetição </option>
+                            <!-- <option value="repeticao"> PR </option> -->
+                        </select>
+
+                        <button (click)="generateChart(selectExerciseEvolutionForm.value)" class="p-2"> <fa-icon [icon]="faCheck"></fa-icon> </button>
+                </div>
+        
+            </form> 
+        </div>
+
+    </div>
+
+    <canvas id="canvas">{{chart}}</canvas>
+</div>

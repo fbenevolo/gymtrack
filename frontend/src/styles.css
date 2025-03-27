@@ -8,15 +8,25 @@
     font-style: normal;
     }
 
-h2 {
+h2, h3 {
     all: revert;
 }
 
-
 input {
-    @apply border border-gray-300 rounded-lg;
+    @apply border border-gray-300 rounded-lg p-2;
 }
 
-.btn-remove, .btn-add {
-    @apply bg-rose-400 w-6 rounded-lg shadow-lg font-bold text-white text-lg text-center;
+button, select {
+    @apply bg-rose-400 rounded-lg shadow-lg font-bold text-white text-lg text-center;
 }
+
+li {
+    @apply m-1 p-2 hover:bg-gray-300 cursor-pointer;
+}
+
+
+.btn-size {
+    @apply w-6 h-[28px];
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
