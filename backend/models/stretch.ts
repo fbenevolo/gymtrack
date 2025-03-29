@@ -1,4 +1,4 @@
-export class Exercise {
+export class Stretch {
     constructor (
         /* 
             type attribute can either one of two:

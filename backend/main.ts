@@ -12,8 +12,12 @@ const FRONTEND_URL = 'http://localhost:4200';
 
 app.use(oakCors({ origin: FRONTEND_URL }));
 
-app.use(exercisesRouter.prefix('exercises/').routes());
+app.use(exercisesRouter.prefix('/exercises/').routes());
 app.use(exercisesRouter.allowedMethods());
+
+app.use(stretchesRouter.prefix('/stretches/').routes());
+app.use(stretchesRouter.allowedMethods());
+
 
 // app.use(router.allowedMethods());
 
