@@ -21,6 +21,7 @@ catch (error) {
 }
 
 const db = client.db(DB_NAME);
-const exercisesCollection = db.collection(Deno.env.get("COLLECTION_NAME") || "exercises");
+const exercisesCollection = db.collection(Deno.env.get("EXERCISE_COLLECTION_NAME") || "exercises");
+const stretchingCollection = db.collection(Deno.env.get("STRETCHING_COLLECTION_NAME") || "stretchings");
 
-export { db, exercisesCollection };
+export { db, exercisesCollection, stretchingCollection };
