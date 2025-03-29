@@ -1,5 +1,5 @@
-import { exercisesCollection } from "../connect-db.ts";
-import Exercise from "../models/exercise.ts";
+import { exercisesCollection } from "../../connect-db.ts";
+import Exercise from "../../models/exercise.ts";
 
 export async function addExercise(exercise: Exercise): Promise<Response> {
     try { 

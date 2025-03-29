@@ -1,5 +1,5 @@
-import { exercisesCollection } from "../connect-db.ts";
-import { Exercise } from "../models/exercise.ts";
+import { exercisesCollection } from "../../connect-db.ts";
+import { Exercise } from "../../models/exercise.ts";
 
 import dayjs from "dayjs";
 import localeData from 'dayjs/plugin/localeData';

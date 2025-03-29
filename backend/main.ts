@@ -1,17 +1,17 @@
 import { Application, Router } from "oak";
 import { oakCors } from "oakCors";
 
-import { getExercises } from "./controllers/getExercises.ts";
-import { addExercise } from "./controllers/addExercise.ts";
-import { deleteExercise } from "./controllers/deleteExercise.ts";
+import { getExercises } from "./controllers/exercise/getExercises.ts";
+import { addExercise } from "./controllers/exercise/addExercise.ts";
+import { deleteExercise } from "./controllers/exercise/deleteExercise.ts";
 
-import { updateExercisePr, updateExerciseWeekDay } from "./controllers/updateExercise.ts";
+import { updateExercisePr, updateExerciseWeekDay } from "./controllers/exercise/updateExercise.ts";
 
-import { getWeightProgression } from "./controllers/getWeightProgression.ts";
-import { addWeightProgression } from "./controllers/addWeightProgression.ts";
-import { deleteWeightProgression } from "./controllers/deleteWeightProgression.ts";
-import { updateWeightProgressionDate, updateWeightProgressionReps, updateWeightProgressionWeight } from "./controllers/updateWeightProgression.ts";
-import { groupExercises } from "./controllers/groupExercises.ts";
+import { getWeightProgression } from "./controllers/exercise/getWeightProgression.ts";
+import { addWeightProgression } from "./controllers/exercise/addWeightProgression.ts";
+import { deleteWeightProgression } from "./controllers/exercise/deleteWeightProgression.ts";
+import { updateWeightProgressionDate, updateWeightProgressionReps, updateWeightProgressionWeight } from "./controllers/exercise/updateWeightProgression.ts";
+import { groupExercises } from "./controllers/exercise/groupExercises.ts";
 
 const app = new Application();
 const router = new Router();
@@ -32,9 +32,6 @@ router.get('/', async (context) => {
 router.get('/group-exercises', async (context) => {
     return await groupExercises().then(async (response) => {
         const data = await response.json();
-
-        // console.log(data);
-
         context.response.status = response.status;
         context.response.body = data.message;
     })
@@ -46,7 +43,7 @@ router.post('/', async (context) => {
 
     return await addExercise(reqData).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+        context.response.status = response.status;
         context.response.body = data.message;
     });
 });
@@ -57,7 +54,8 @@ router.delete('/', async (context) => {
 
     return await deleteExercise(exerciseName).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+
+        context.response.status = response.status;
         context.response.body = data.message;
     });
 });
@@ -69,7 +67,7 @@ router.patch('/exercise/pr', async (context) => {
 
     return await updateExercisePr(exerciseName, pr).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+        context.response.status = response.status;
         context.response.body = data.message;
     })
 });
@@ -81,7 +79,7 @@ router.patch('/exercise/weekday', async (context) => {
 
     return await updateExerciseWeekDay(exerciseName, weekDay).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+        context.response.status = response.status;
         context.response.body = data.message;
     })
 });
@@ -91,7 +89,7 @@ router.get('/exercise-wp/:name', async (context) => {
     
     return await getWeightProgression(exerciseName).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+        context.response.status = response.status;
         context.response.body = data.message;
     });
 });
@@ -104,7 +102,7 @@ router.post('/exercise-wp', async (context) => {
     
     return await addWeightProgression(exerciseName, weightProgression).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+        context.response.status = response.status;
         context.response.body = data.message;
     });
 });
@@ -117,7 +115,7 @@ router.patch('/exercise-wp/date', async (context) => {
 
     return await updateWeightProgressionDate(exerciseName, oldDate, newDate).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+        context.response.status = response.status;
         context.response.body = data.message;
     });
 });
@@ -130,7 +128,7 @@ router.patch('/exercise-wp/weight', async (context) => {
 
     return await updateWeightProgressionWeight(exerciseName, date, weight).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+        context.response.status = response.status;
         context.response.body = data.message;
     });
 });
@@ -143,7 +141,7 @@ router.patch('/exercise-wp/reps', async (context) => {
 
     return await updateWeightProgressionReps(exerciseName, date, reps).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+        context.response.status = response.status;
         context.response.body = data.message;
     });
 });
@@ -155,7 +153,7 @@ router.delete('/exercise-wp', async (context) => {
 
     return await deleteWeightProgression(exerciseName, date).then(async (response) => {
         const data = await response.json();
-        context.response.status = data.status;
+        context.response.status = response.status;
         context.response.body = data.message;
     });
 

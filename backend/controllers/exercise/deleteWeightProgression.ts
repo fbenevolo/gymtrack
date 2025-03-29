@@ -1,5 +1,5 @@
 import { Dayjs } from "https://esm.sh/dayjs@1.11.13/index.d.ts";
-import { exercisesCollection } from "../connect-db.ts";
+import { exercisesCollection } from "../../connect-db.ts";
 
 export async function deleteWeightProgression(exercise: string, date: Dayjs): Promise<Response> {
     try {

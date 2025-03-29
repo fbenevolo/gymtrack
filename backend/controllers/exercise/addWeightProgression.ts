@@ -1,5 +1,5 @@
-import { exercisesCollection } from "../connect-db.ts";
-import { WeightProgression } from "../models/exercise.ts";
+import { exercisesCollection } from "../../connect-db.ts";
+import { WeightProgression } from "../../models/exercise.ts";
 
 
 export async function addWeightProgression(exercise: string, wp: WeightProgression): Promise<Response> {

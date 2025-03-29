@@ -1,4 +1,4 @@
-import { exercisesCollection } from "../connect-db.ts";
+import { exercisesCollection } from "../../connect-db.ts";
 
 export async function updateExercisePr(exercise: string, pr: number): Promise<Response> {
     try {

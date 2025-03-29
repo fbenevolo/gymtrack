@@ -1,5 +1,5 @@
 import { Document } from "mongodb";
-import { exercisesCollection } from "../connect-db.ts";
+import { exercisesCollection } from "../../connect-db.ts";
 
 export async function getExercises(): Promise<Document> {
     try {
