@@ -7,5 +7,5 @@ export class Stretch {
             
             value can either represent a time or a number of repetitions, depending on the type of stretch
         */
-        public name: string, type: string, value: number) {}
+        public name: string, routineNumber: number, type: string, value: number) {}
 }
