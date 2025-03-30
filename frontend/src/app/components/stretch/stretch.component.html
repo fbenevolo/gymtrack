@@ -1,0 +1,95 @@
+<div *ngIf="dataReady" class="rounded-lg shadow-lg p-4">
+    <div class="min-h-[400px]">  
+        <h2>Alongamentos</h2>
+
+        <div class="flex justify-end m-1 mt-5 mb-3"> 
+            <div *ngIf="" class="m-auto">Alongamento removido!</div>
+            <button (click)="toggleStretchForm()" matTooltip="Adicionar novo exercício" class="w-10"> <fa-icon [icon]="faPlus"></fa-icon> </button>    
+        </div>
+
+        <div *ngIf="stretchData.length == 0"> 
+            Nada para mostrar...
+            <br>
+            Cadastre novos alongamentos neste dia!    
+        </div>
+
+        <div *ngIf="stretchData.length > 0">
+            <div *ngFor="let stretch of stretchData">  
+                <div class="flex"> 
+                    <div class="flex-1"> <h3> Nome </h3>  </div>
+                    <div class="flex flex-1 justify-center"> <h3> Quantidade </h3> </div>
+                    <div class="flex flex-1 justify-end"> <h3> Opções </h3> </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngFor="let stretch of stretchData"> 
+            <div class="flex flex-col">
+                <div class="flex items-center py-3">
+                    <div class="flex-1 break-words mr-3"> {{ stretch.name | titlecase }} </div>
+
+                    <div class="flex flex-1 justify-center items-center">
+                        {{ stretch.value }} 
+                        <div *ngIf="stretch.type == 'T'"> s </div>    
+                    </div>
+                    <div class="flex flex-1 justify-end">
+                        <div class="flex gap-1">
+                            <button matTooltip="Editar" class="btn-size"> <fa-icon [icon]="faPencil"></fa-icon></button>
+                            <button matTooltip="Remover" class="btn-size"> <fa-icon [icon]="faTrash"></fa-icon></button>
+                        </div>
+        
+                        <!-- <div *ngIf="removeExerciseButtonArray[i]" class="flex gap-1">
+                            <button matTooltip="Cancelar" (click)="showConfirmDelete(i)" class="btn-size"> <fa-icon [icon]="faXmark"></fa-icon> </button>
+                            <button matTooltip="Confirmar" (click)="deleteExercise(e.exercise.name); showConfirmDelete(i)" class="btn-size"> <fa-icon [icon]="faCheck"> </fa-icon> </button>
+                        </div> -->
+                    </div>
+                </div>
+                <hr class="h-[3px] bg-gray-200 border-0">
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="stretchFormState" class="flex justify-center items-center fixed inset-0 bg-opacity-50 backdrop-brightness-60 z-40"> 
+        <div class="flex flex-col bg-white rounded-lg shadow-lg p-4 min-h-[300px]">
+            <div class="flex items-center gap-3">
+                <h2>Novo alongamento</h2>
+                <button (click)="toggleStretchForm()" class="btn-size"> 
+                    <fa-icon [icon]="faXmark"></fa-icon> 
+                </button>
+            </div>
+
+            <div *ngIf="incorrectFormMsgState">
+                mensagem de erro
+                <button (click)="toggleIncorrectFormMessage()" class="btn-size"> 
+                    <fa-icon [icon]="faXmark"></fa-icon> 
+                </button>
+            </div>
+
+            <form [formGroup]="newStretchForm" class="flex flex-col gap-1 justify-center">
+                <label for="exercise-name"> Nome </label>
+                <input id="exercise-name" type="text" formControlName="name" autocomplete="off">
+
+                <select formControlName="type">
+                    <option value="" selected>Tipo</option>
+                    <option value="T">Tempo</option>
+                    <option value="R">Repetição</option>
+                </select>
+
+                <label *ngIf="newStretchForm.value.type == 'T'"> Tempo (segundos) </label>
+                <label *ngIf="newStretchForm.value.type == 'R'"> Quantidade </label>
+                <input *ngIf="newStretchForm.value.type != ''" type="text" formControlName="value" autocomplete="off">
+
+                <div class="flex justify-center mt-3" *ngIf="newStretchForm.valid">
+                    <button (click)="addStretch(newStretchForm.value); toggleStretchForm()" class="btn-size"> <fa-icon [icon]="faPlus"></fa-icon> </button>
+                </div>
+
+                <div class="flex justify-center mt-3" *ngIf="!newStretchForm.valid">
+                    <button (click)="toggleIncorrectFormMessage()" class="btn-size"> <fa-icon [icon]="faPlus"></fa-icon> </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { NgIf, NgFor, TitleCasePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { ExercisesService } from '../../services/exercises.service';
+import { ExercisesService } from '../../services/exercise/exercises.service';
 
 import Chart from 'chart.js/auto';
 

@@ -1,4 +1,4 @@
-<div *ngIf="dataReady" class="w-3/4">
+<div *ngIf="dataReady">
     <div class="rounded-lg shadow-lg p-4 h-[400px]">
         <h2>Academia</h2>
 
@@ -10,9 +10,9 @@
         </div>
 
         <div *ngIf="selectedDay">
-            <div (click)="showNewExerciseForm(selectedDay)" class="flex justify-end m-1 mt-5 mb-3"> 
+            <div class="flex justify-end m-1 mt-5 mb-3"> 
                 <div *ngIf="exerciseRemoved" class="m-auto">Exercício removido!</div>
-                <button matTooltip="Adicionar novo exercício" class="w-10"> <fa-icon [icon]="faPlus"></fa-icon> </button>    
+                <button (click)="showNewExerciseForm(selectedDay)" matTooltip="Adicionar novo exercício" class="w-10"> <fa-icon [icon]="faPlus"></fa-icon> </button>    
             </div>
     
             <div *ngIf="selectedDayExercises.length == 0"> 
@@ -59,16 +59,12 @@
                                     </button>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>                
             </div>
         </div>
     </div>
-
 
     <div *ngIf="newExerciseFormActiveArray[selectedDay]" class="flex justify-center items-center fixed inset-0 bg-opacity-50 backdrop-brightness-60 z-40"> 
         <div class="flex bg-white rounded-lg shadow-lg p-4">

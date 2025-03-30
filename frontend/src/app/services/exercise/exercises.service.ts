@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ExercisesService {
 
-  url = 'http://localhost:2020/';
+  url = 'http://localhost:2020/exercises/';
 
   constructor(private http: HttpClient) {}
 

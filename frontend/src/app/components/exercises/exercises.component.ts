@@ -1,10 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { NgIf, NgFor, TitleCasePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ExercisesService } from '../../services/exercises.service';
+import { ExercisesService } from '../../services/exercise/exercises.service';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCheck, faXmark, faTrash, faPlus, faRocket } from '@fortawesome/free-solid-svg-icons';
 
